@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        /* Efek Timbul Khas (Neumorphism-ish Shadow) */
         .timbul {
             transition: all 0.3s ease;
             box-shadow: 6px 6px 0px rgba(21, 128, 61, 0.2);
@@ -20,14 +19,8 @@
             transform: translate(-3px, -3px);
             box-shadow: 10px 10px 0px rgba(21, 128, 61, 0.1);
         }
-        /* Smooth Scrolling Gallery */
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
@@ -58,22 +51,18 @@
     <section id="galeri" class="mb-20">
         <h3 class="text-3xl font-bold text-center text-green-800 mb-8 uppercase tracking-widest">Galeri Pesantren</h3>
         <div class="flex overflow-x-auto space-x-6 pb-6 hide-scrollbar snap-x snap-mandatory">
-            
             <div class="snap-center flex-shrink-0">
                 <img src="https://www.dropbox.com/scl/fi/qd8p76tpt8asf8qegn8bl/IMG-20240103-WA0030.jpg?rlkey=6jfgkqk6gfbbner7zdwouqsf2&st=ir0gmknw&raw=1" 
                 onclick="openModal(this.src)" class="h-64 w-80 object-cover rounded-2xl shadow-xl cursor-pointer hover:scale-105 transition-all duration-500 border-4 border-white">
             </div>
-
             <div class="snap-center flex-shrink-0">
                 <img src="https://www.dropbox.com/scl/fi/l04pu5cxdbt8osmr1rpgf/IMG_20250703_105627_7.jpg?rlkey=niujxblllya5ogv92hahsmdib&st=83nqa7jh&raw=1" 
                 onclick="openModal(this.src)" class="h-64 w-80 object-cover rounded-2xl shadow-xl cursor-pointer hover:scale-105 transition-all duration-500 border-4 border-white">
             </div>
-
             <div class="snap-center flex-shrink-0">
                 <img src="https://www.dropbox.com/scl/fi/ru6w33w8pxwqzkebrf04p/IMG_20250703_105839_481.jpg?rlkey=l57wj9mpkxywz6n0f338iapxx&st=qihkyr5m&raw=1" 
                 onclick="openModal(this.src)" class="h-64 w-80 object-cover rounded-2xl shadow-xl cursor-pointer hover:scale-105 transition-all duration-500 border-4 border-white">
             </div>
-
         </div>
         <p class="text-center text-gray-400 text-sm mt-2 italic md:hidden">Geser untuk melihat foto lainnya &rarr;</p>
     </section>
@@ -84,8 +73,7 @@
             <p class="text-gray-500">Lengkapi data santri/wati dengan benar</p>
         </div>
 
-        <form id="formPendaftaran" action="https://script.google.com/macros/s/AKfycbzVbTGpW9xy7fC5jphMaaINl2FanvrJGd0gMQHSGKt2gI6A2-fgBkRTB9rxM1mPAxD2ug/exec" mothod="POST" class="grid md:grid-cols-2 gap-6">
-            
+        <form id="formPendaftaran" action="https://script.google.com/macros/s/AKfycbzVbTGpW9xy7fC5jphMaaINl2FanvrJGd0gMQHSGKt2gI6A2-fgBkRTB9rxM1mPAxD2ug/exec" method="POST" class="grid md:grid-cols-2 gap-6">
             <div class="md:col-span-2">
                 <label class="block font-bold text-green-800 mb-2">Nama Lengkap Santri/wati *</label>
                 <input type="text" name="nama" required class="w-full border-2 border-gray-200 p-3 rounded-xl focus:border-green-600 outline-none transition" placeholder="Contoh: Ahmad Fauzi">
@@ -171,11 +159,6 @@
 </main>
 
 <footer class="bg-gray-900 text-gray-400 py-10 text-center text-sm border-t-4 border-yellow-500 mt-20">
-    <div class="mb-4">
-        <i class="fas fa-star text-yellow-500"></i>
-        <i class="fas fa-star text-yellow-500"></i>
-        <i class="fas fa-star text-yellow-500"></i>
-    </div>
     © 2026 Pesantren Miftahul Jannah. All Rights Reserved.
 </footer>
 
@@ -185,7 +168,7 @@
 </div>
 
 <script>
-    // Mobile Menu Toggle
+    // 1. Mobile Menu Toggle
     const menuBtn = document.getElementById("menuBtn");
     menuBtn.addEventListener("click", () => {
         const menu = document.querySelector("ul");
@@ -201,30 +184,7 @@
         menu.classList.toggle("z-40");
     });
 
-    // Form Handling
-    const form = document.getElementById("formPendaftaran");
-    form.addEventListener("submit", async function(e){
-        e.preventDefault();
-        
-        Swal.fire({
-            title: 'Sedang Mengirim...',
-            allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading() }
-        });
-
-        // Simulasi Berhasil
-        setTimeout(() => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Pendaftaran Berhasil',
-                text: 'Data santri telah kami terima. Silakan tunggu konfirmasi.',
-                confirmButtonColor: '#15803d'
-            });
-            form.reset();
-        }, 1500);
-    });
-
-    // Modal Galeri
+    // 2. Modal Galeri
     function openModal(src) {
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("modalImage");
@@ -236,8 +196,57 @@
     function closeModal() {
         document.getElementById("imageModal").classList.add("hidden");
     }
+
+    // 3. Form Handling (Koneksi ke Google Sheets)
+    const form = document.getElementById("formPendaftaran");
+    form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Sedang Mengirim...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading() }
+        });
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.text();
+
+            if (result === "BERHASIL") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pendaftaran Berhasil',
+                    text: 'Data santri telah otomatis tersimpan di Google Sheets.',
+                    confirmButtonColor: '#15803d'
+                });
+                form.reset(); 
+            } else if (result === "KODE_SALAH") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kode Akses Salah',
+                    text: 'Silakan periksa kembali kode akses pendaftaran Anda.',
+                    confirmButtonColor: '#d33'
+                });
+            } else {
+                throw new Error("Respon tidak dikenal");
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Gagal menyambung ke server. Pastikan Anda sudah "Deploy" Apps Script sebagai "Anyone".',
+                confirmButtonColor: '#d33'
+            });
+            console.error("Error!", error.message);
+        }
+    });
 </script>
 
 </body>
 </html>
-
