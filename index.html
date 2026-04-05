@@ -282,77 +282,87 @@
 </div>
 
 <script>
-    // Mobile Menu Toggle
+// 1. Mobile Menu Toggle
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
     menuBtn.addEventListener("click", () => {
         mobileMenu.classList.toggle("hidden");
     });
 
-    // Form Handling & 16 Digit Validation
+    // 2. Form Handling & Validation
     const form = document.getElementById("formPendaftaran");
     
     form.addEventListener("submit", async function(e){
         e.preventDefault();
         
-        const noKK = form.no_kk.value;
-        const noKTP = form.no_ktp.value;
-        const regexDigit = /^\d{16}$/; // Pola tepat 16 digit angka
+        // Ambil Nilai Input untuk Validasi
+        const nik = form.nik.value;
+        const noHp = form.no_hp.value;
+        const regexDigit16 = /^\d{16}$/; // Tepat 16 angka
+        const regexWa62 = /^62\d+$/;      // Harus diawali 62 dan sisanya angka
 
-        // Validasi KK
-        if (!regexDigit.test(noKK)) {
+        // --- VALIDASI NIK ---
+        if (!regexDigit16.test(nik)) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Tidak Valid',
-                text: 'Nomor Kartu Keluarga (KK) harus tepat 16 digit angka!',
+                title: 'NIK Tidak Valid',
+                text: 'Nomor Induk Kependudukan (NIK) harus tepat 16 digit angka!',
                 confirmButtonColor: '#15803d'
             });
             return;
         }
 
-        // Validasi KTP
-        if (!regexDigit.test(noKTP)) {
+        // --- VALIDASI NO HANDPHONE (SESUAI GAMBAR PANDUAN) ---
+        if (!regexWa62.test(noHp)) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Tidak Valid',
-                text: 'Nomor KTP Wali harus tepat 16 digit angka!',
+                title: 'Format HP Salah',
+                text: 'Nomor HP harus diawali dengan kode negara 62 (Contoh: 628123456xxx)',
                 confirmButtonColor: '#15803d'
             });
             return;
         }
 
-        // Jika Lolos Validasi
+        // --- PROSES KIRIM DATA ---
         Swal.fire({
-            title: 'Memproses Data...',
-            text: 'Harap tunggu sebentar',
+            title: 'Sedang Mengirim...',
+            text: 'Data sedang disimpan ke sistem Sheet3',
             allowOutsideClick: false,
             didOpen: () => { Swal.showLoading() }
         });
 
         try {
             const formData = new FormData(form);
-            const response = await fetch(form.action, { method: 'POST', body: formData });
+            const response = await fetch(form.action, { 
+                method: 'POST', 
+                body: formData 
+            });
             const result = await response.text();
 
             if (result === "BERHASIL") {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Berhasil Terdaftar!',
-                    text: 'Data Santri Baru telah tersimpan di sistem kami.',
+                    title: 'Pendaftaran Berhasil!',
+                    text: 'Data Anda telah tersimpan di Sheet3 Pesantren Miftahul Jannah.',
                     confirmButtonColor: '#15803d'
                 });
-                form.reset();
+                form.reset(); // Kosongkan form setelah berhasil
             } else if (result === "KODE_SALAH") {
-                Swal.fire('Kode Salah', 'Kode akses tidak sesuai. Silakan hubungi pengurus.', 'error');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kode Akses Salah',
+                    text: 'Silakan periksa kembali kode akses pendaftaran Anda.',
+                    confirmButtonColor: '#d33'
+                });
             } else {
-                Swal.fire('Gagal', 'Terjadi kesalahan sistem. Silakan coba lagi.', 'error');
+                Swal.fire('Gagal', 'Terjadi kesalahan sistem: ' + result, 'error');
             }
         } catch (error) {
-            Swal.fire('Koneksi Error', 'Gagal menyambungkan ke server. Periksa internet Anda.', 'error');
+            Swal.fire('Koneksi Error', 'Gagal terhubung ke server. Pastikan internet aktif.', 'error');
         }
     });
 
-    // Modal Galeri
+    // 3. Fungsi Modal Galeri (Tetap Sama)
     function openModal(src) {
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("modalImage");
