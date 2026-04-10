@@ -93,12 +93,9 @@
                 // Regex untuk menangani koma di dalam tanda kutip
                 const kolom = item.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 
-                // Berdasarkan gambar yang Anda kirim:
-                // Kolom B (index 1) = Nama Lengkap
-                // Kolom F (index 5) = Tempat Lahir
+                // Hanya mengambil Kolom B (index 1) = Nama Lengkap
                 return {
-                    nama: kolom[1] ? kolom[1].replace(/"/g, '').trim() : '',
-                    asal: kolom[5] ? kolom[5].replace(/"/g, '').trim() : 'Cilacap'
+                    nama: kolom[1] ? kolom[1].replace(/"/g, '').trim() : ''
                 };
             }).filter(s => s.nama !== "" && s.nama.toLowerCase() !== "nama lengkap");
 
@@ -137,9 +134,6 @@
                 </div>
                 <div class="overflow-hidden flex-grow">
                     <h4 class="font-bold text-slate-800 uppercase text-xs truncate tracking-tight group-hover:text-green-800 transition-colors">${s.nama}</h4>
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">
-                        <i class="fas fa-map-marker-alt text-yellow-500 mr-1 opacity-70"></i> ${s.asal}
-                    </p>
                 </div>
                 <div class="text-slate-200 group-hover:text-green-200">
                     <i class="fas fa-chevron-right text-[10px]"></i>
