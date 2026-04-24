@@ -114,6 +114,14 @@
             </div>
         </div>
         <p class="text-center text-slate-400 text-sm italic md:hidden">Geser untuk melihat foto &rarr;</p>
+        <div class="hidden md:flex justify-center space-x-4 mt-6">
+        <button onclick="scrollGallery(-400)" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-full shadow-lg transition-all active:scale-95 uppercase text-sm tracking-widest">
+            Sebelumnya
+        </button>
+        <button onclick="scrollGallery(400)" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-full shadow-lg transition-all active:scale-95 uppercase text-sm tracking-widest">
+            Selanjutnya
+        </button>
+    </div>
     </section>
 
     <section id="pendaftaran" class="relative">
@@ -379,6 +387,14 @@
         const modalImg = document.getElementById("modalImage");
         modalImg.classList.add("scale-95");
         setTimeout(() => modal.classList.add("hidden"), 200);
+    }
+
+    function scrollGallery(distance) {
+    const container = document.getElementById('gallery-scroll');
+    container.scrollBy({
+        left: distance,
+        behavior: 'smooth'
+    });
     }
 </script>
 
