@@ -82,13 +82,13 @@
 <main class="max-w-6xl mx-auto px-4 py-16">
 
     <section id="galeri" class="mb-24">
-        <div class="flex items-center space-x-4 mb-10">
-            <div class="h-1 w-12 bg-green-600"></div>
-            <h3 class="text-3xl font-black text-green-800 uppercase tracking-tighter">Galeri Pesantren</h3>
-        </div>
-        
-        <div class="flex overflow-x-auto space-x-6 pb-8 hide-scrollbar snap-x snap-mandatory">
-            <div class="snap-center flex-shrink-0">
+    <div class="flex items-center space-x-4 mb-10">
+        <div class="h-1 w-12 bg-green-600"></div>
+        <h3 class="text-3xl font-black text-green-800 uppercase tracking-tighter">Galeri Pesantren</h3>
+    </div>
+    
+    <div id="gallery-scroll" class="flex overflow-x-auto space-x-6 pb-8 hide-scrollbar snap-x snap-mandatory scroll-smooth">
+        <div class="snap-center flex-shrink-0">
                 <img src="https://www.dropbox.com/scl/fi/qd8p76tpt8asf8qegn8bl/IMG-20240103-WA0030.jpg?rlkey=6jfgkqk6gfbbner7zdwouqsf2&st=ir0gmknw&raw=1" 
                 onclick="openModal(this.src)" class="img-card h-72 w-96 object-cover rounded-3xl shadow-2xl cursor-pointer border-4 border-white">
             </div>
@@ -395,7 +395,7 @@
         left: distance,
         behavior: 'smooth'
     });
-    }
+    
 </script>
 
 </body>
