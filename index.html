@@ -37,6 +37,26 @@
             filter: grayscale(0%);
             transform: scale(1.02);
         }
+
+        /* Navigasi Galeri */
+        .nav-btn {
+            background: rgba(21, 128, 61, 0.9);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 20;
+        }
+        .nav-btn:hover {
+            background: #eab308;
+            color: #064e3b;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -70,7 +90,7 @@
 
 <header id="home" class="relative bg-green-900 text-white py-24 overflow-hidden">
     <div class="absolute inset-0 opacity-10 flex justify-center items-center pointer-events-none">
-        <i class="fas fa-mosque fa-[20rem]"></i>
+        <i class="fas fa-mosque text-[20rem]"></i>
     </div>
     <div class="relative max-w-4xl mx-auto text-center px-4">
         <span class="bg-yellow-500 text-green-900 px-4 py-1 rounded-full text-xs font-black uppercase mb-4 inline-block tracking-widest">Pendaftaran 2026/2027</span>
@@ -81,13 +101,20 @@
 
 <main class="max-w-6xl mx-auto px-4 py-16">
 
-    <section id="galeri" class="mb-24">
-        <div class="flex items-center space-x-4 mb-10">
-            <div class="h-1 w-12 bg-green-600"></div>
-            <h3 class="text-3xl font-black text-green-800 uppercase tracking-tighter">Galeri Pesantren</h3>
+    <section id="galeri" class="mb-24 relative">
+        <div class="flex items-center justify-between mb-10">
+            <div class="flex items-center space-x-4">
+                <div class="h-1 w-12 bg-green-600"></div>
+                <h3 class="text-3xl font-black text-green-800 uppercase tracking-tighter">Galeri Pesantren</h3>
+            </div>
+            <!-- Desktop Arrows -->
+            <div class="hidden md:flex space-x-2">
+                <button onclick="scrollGallery(-400)" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scrollGallery(400)" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
         </div>
         
-        <div class="flex overflow-x-auto space-x-6 pb-8 hide-scrollbar snap-x snap-mandatory">
+        <div id="galleryContainer" class="flex overflow-x-auto space-x-6 pb-8 hide-scrollbar snap-x snap-mandatory scroll-smooth">
             <div class="snap-center flex-shrink-0">
                 <img src="https://www.dropbox.com/scl/fi/qd8p76tpt8asf8qegn8bl/IMG-20240103-WA0030.jpg?rlkey=6jfgkqk6gfbbner7zdwouqsf2&st=ir0gmknw&raw=1" 
                 onclick="openModal(this.src)" class="img-card h-72 w-96 object-cover rounded-3xl shadow-2xl cursor-pointer border-4 border-white">
@@ -141,6 +168,20 @@
             </div>
 
             <div>
+                <label class="block font-extrabold text-green-800 mb-2 uppercase text-xs tracking-widest">Pilih Kelas *</label>
+                <select name="kelas" required class="w-full bg-slate-50 border-2 border-slate-200 p-4 rounded-2xl focus:border-green-600 outline-none shadow-inner">
+                    <option value="">-- Pilih Kelas --</option>
+                    <option value="Kelas 1">Kelas 1</option>
+                    <option value="Kelas 2">Kelas 2</option>
+                    <option value="Kelas 3">Kelas 3</option>
+                    <option value="Kelas 4">Kelas 4</option>
+                    <option value="Kelas 5">Kelas 5</option>
+                    <option value="Kelas 6">Kelas 6</option>
+                    <option value="Persiapan/I'dad">Persiapan/I'dad</option>
+                </select>
+            </div>
+
+            <div>
                 <label class="block font-extrabold text-green-800 mb-2 uppercase text-xs tracking-widest">Kewarganegaraan *</label>
                 <select name="kewarganegaraan" required class="w-full bg-slate-50 border-2 border-slate-200 p-4 rounded-2xl focus:border-green-600 outline-none shadow-inner">
                     <option value="">-- Pilih --</option>
@@ -168,11 +209,6 @@
                 <select name="agama" required class="w-full bg-slate-50 border-2 border-slate-200 p-4 rounded-2xl focus:border-green-600 outline-none shadow-inner">
                     <option value="">-- Pilih --</option>
                     <option value="Islam">Islam</option>
-                    <option value="Kristen Protestan">Kristen Protestan</option>
-                    <option value="Katolik">Katolik</option>
-                    <option value="Hindu">Hindu</option>
-                    <option value="Buddha">Buddha</option>
-                    <option value="Konghucu">Konghucu</option>
                 </select>
             </div>
 
@@ -191,8 +227,6 @@
                 <input type="text" name="no_hp" required inputmode="numeric" class="w-full bg-slate-50 border-2 border-slate-200 p-4 rounded-2xl focus:border-green-600 outline-none shadow-inner" placeholder="62812345678">
                 <p class="text-[10px] text-slate-400 mt-1 font-bold">* Diawali kode negara (Contoh: 62)</p>
             </div>
-
-            <div class="hidden md:block"></div>
 
             <div class="md:col-span-2 border-l-4 border-green-600 pl-4 mt-6 mb-2">
                 <h4 class="font-black text-green-800 uppercase text-sm tracking-widest">II. Data Orang Tua & Wali</h4>
@@ -280,55 +314,57 @@
 
 <div id="imageModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[100] p-4" onclick="closeModal()">
     <button class="absolute top-5 right-5 text-white text-5xl font-thin">&times;</button>
-    <img id="modalImage" class="max-h-[90vh] max-w-full rounded-2xl shadow-2xl transition-all duration-300 transform scale-95" id="modalContent">
+    <img id="modalImage" class="max-h-[90vh] max-w-full rounded-2xl shadow-2xl transition-all duration-300 transform scale-95">
 </div>
 
 <script>
-// 1. Mobile Menu Toggle
+    // 1. Mobile Menu Toggle
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
     menuBtn.addEventListener("click", () => {
         mobileMenu.classList.toggle("hidden");
     });
 
-    // 2. Form Handling & Validation
+    // 2. Navigasi Galeri (Desktop Arrows)
+    function scrollGallery(distance) {
+        const container = document.getElementById("galleryContainer");
+        container.scrollBy({ left: distance, behavior: 'smooth' });
+    }
+
+    // 3. Form Handling & Validation
     const form = document.getElementById("formPendaftaran");
     
     form.addEventListener("submit", async function(e){
         e.preventDefault();
         
-        // Ambil Nilai Input untuk Validasi
         const nik = form.nik.value;
         const noHp = form.no_hp.value;
-        const regexDigit16 = /^\d{16}$/; // Tepat 16 angka
-        const regexWa62 = /^62\d+$/;      // Harus diawali 62 dan sisanya angka
+        const regexDigit16 = /^\d{16}$/;
+        const regexWa62 = /^62\d+$/;
 
-        // --- VALIDASI NIK ---
         if (!regexDigit16.test(nik)) {
             Swal.fire({
                 icon: 'warning',
                 title: 'NIK Tidak Valid',
-                text: 'Nomor Induk Kependudukan (NIK) harus tepat 16 digit angka!',
+                text: 'NIK harus tepat 16 digit angka!',
                 confirmButtonColor: '#15803d'
             });
             return;
         }
 
-        // --- VALIDASI NO HANDPHONE (SESUAI GAMBAR PANDUAN) ---
         if (!regexWa62.test(noHp)) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Format HP Salah',
-                text: 'Nomor HP harus diawali dengan kode negara 62 (Contoh: 628123456xxx)',
+                text: 'Nomor HP harus diawali dengan kode negara 62',
                 confirmButtonColor: '#15803d'
             });
             return;
         }
 
-        // --- PROSES KIRIM DATA ---
         Swal.fire({
             title: 'Sedang Mengirim...',
-            text: 'Data sedang disimpan ke sistem Sheet3',
+            text: 'Mohon tunggu sebentar',
             allowOutsideClick: false,
             didOpen: () => { Swal.showLoading() }
         });
@@ -345,10 +381,10 @@
                 Swal.fire({
                     icon: 'success',
                     title: 'Pendaftaran Berhasil!',
-                    text: 'Data Anda telah tersimpan di Sheet3 Pesantren Miftahul Jannah.',
+                    text: 'Data Anda telah tersimpan di sistem kami.',
                     confirmButtonColor: '#15803d'
                 });
-                form.reset(); // Kosongkan form setelah berhasil
+                form.reset();
             } else if (result === "KODE_SALAH") {
                 Swal.fire({
                     icon: 'error',
@@ -357,14 +393,14 @@
                     confirmButtonColor: '#d33'
                 });
             } else {
-                Swal.fire('Gagal', 'Terjadi kesalahan sistem: ' + result, 'error');
+                Swal.fire('Gagal', 'Terjadi kesalahan: ' + result, 'error');
             }
         } catch (error) {
-            Swal.fire('Koneksi Error', 'Gagal terhubung ke server. Pastikan internet aktif.', 'error');
+            Swal.fire('Koneksi Error', 'Gagal terhubung ke server.', 'error');
         }
     });
 
-    // 3. Fungsi Modal Galeri (Tetap Sama)
+    // 4. Fungsi Modal Galeri
     function openModal(src) {
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("modalImage");
